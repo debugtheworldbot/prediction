@@ -1,10 +1,17 @@
 import { CardDemo } from "@/components/CardDemo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="p-4">
-      <Button className="block ml-auto">+ prediction</Button>
+    <div className="px-4">
+      <header className="flex justify-end items-center gap-4 py-4">
+        <Avatar className="cursor-pointer">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Button>+ prediction</Button>
+      </header>
       <main className="flex flex-col items-center gap-6">
         <CardDemo
           avatar="https://github.com/shadcn.png"
