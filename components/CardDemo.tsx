@@ -35,7 +35,7 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
     <Link href={`/prediction/${prediction.id}`}>
       <Card className={cn(className)} {...props}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-4 sm:w-96 w-[70vw]">
+          <CardTitle className="flex items-center gap-4 sm:w-[40rem] w-[70vw]">
             <Avatar className="self-start cursor-pointer">
               <AvatarImage src={user.avatar} />
             </Avatar>
@@ -56,7 +56,9 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
         </CardHeader>
         <CardContent className="flex items-center gap-4">
           <Progress value={prediction.possibility} />
-          {prediction.possibility}%
+          <span className="font-mono font-medium">
+            {prediction.possibility}%
+          </span>
         </CardContent>
         <CardFooter className="flex gap-2 text-gray-500">
           <Reactions />

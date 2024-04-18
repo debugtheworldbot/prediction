@@ -13,7 +13,7 @@ const predictions: Prediction[] = [
       id: "1aaa",
       content:
         "A WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WIN",
-      possibility: 55,
+      possibility: 85,
       evidence: "1111111111",
       risk: "risk",
       status: "Incorrect",
@@ -28,7 +28,7 @@ const predictions: Prediction[] = [
     prediction: {
       id: "1",
       content: "A WILL WIN",
-      possibility: 55,
+      possibility: 25,
       evidence: "1111111111",
       risk: "risk",
       status: "Correct",

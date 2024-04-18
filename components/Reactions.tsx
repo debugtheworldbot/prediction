@@ -10,31 +10,31 @@ import { Button } from "./ui/button";
 
 export default function Reactions() {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.nativeEvent.preventDefault();
-          }}
-          variant="outline"
-          className="rounded-full border w-8 h-8 p-0"
-        >
-          {emoji}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="flex gap-2">
-        {reactions.map((r) => (
-          <PopoverClose
-            className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
-            onClick={() => { }}
-            key={r}
-          >
-            {r}
-          </PopoverClose>
-        ))}
-      </PopoverContent>
-    </Popover>
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        e.nativeEvent.preventDefault();
+      }}
+    >
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="rounded-full border w-8 h-8 p-0">
+            {emoji}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="flex gap-2">
+          {reactions.map((r) => (
+            <PopoverClose
+              className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
+              onClick={() => { }}
+              key={r}
+            >
+              {r}
+            </PopoverClose>
+          ))}
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }
 const reactions = ["👍", "👎", "🔥", "🤣", "🤔", "👀"];
