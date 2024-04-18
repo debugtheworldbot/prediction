@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Slider } from "./ui/slider";
+import { toast } from "sonner";
 
 export function PredictDialog() {
   const [open, setOpen] = useState(false);
@@ -67,11 +68,13 @@ export function PredictDialog() {
 
 function ProfileForm({ className }: React.ComponentProps<"form">) {
   const [canSave, setCanSave] = useState(false);
+  const [possibility, setPossibility] = useState(33);
   return (
     <form
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
         console.log("submit", event);
+        toast("Prediction created");
       }}
       className={cn("grid items-start gap-4", className)}
     >
@@ -88,8 +91,16 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
       <div className="grid gap-2">
         <Label htmlFor="possibility">Possibility</Label>
         <div className="flex gap-4">
-          <Slider id="possibility" defaultValue={[33]} max={100} step={1} />
-          <span>{33}%</span>
+          <Slider
+            id="possibility"
+            defaultValue={[possibility]}
+            onValueChange={(v) => {
+              setPossibility(v[0]);
+            }}
+            max={100}
+            step={1}
+          />
+          <span>{possibility}%</span>
         </div>
       </div>
       <div className="grid gap-2">

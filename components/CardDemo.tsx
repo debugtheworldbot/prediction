@@ -32,7 +32,7 @@ export function CardDemo({
   return (
     <Card className={cn(className)} {...props}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-4 min-w-[380px]">
+        <CardTitle className="flex items-center gap-4 sm:min-w-[380px] min-w-[70vw]">
           <Avatar>
             <AvatarImage src={avatar} />
             <AvatarFallback>{name}</AvatarFallback>
