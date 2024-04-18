@@ -1,9 +1,33 @@
+import { CardDemo } from "@/components/CardDemo";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button>hihi</Button>
-    </main>
+    <div className="p-4">
+      <Button className="block ml-auto">+ prediction</Button>
+      <main className="flex flex-col items-center gap-6">
+        <CardDemo
+          avatar="https://github.com/shadcn.png"
+          name="username"
+          prediction="A WILL WIN"
+          possibility={55}
+          status={"Incorrect"}
+        />
+        <CardDemo
+          avatar="https://github.com/shadcn.png"
+          name="username"
+          prediction="B WILL WIN"
+          possibility={85}
+          status={"Correct"}
+        />
+        <CardDemo
+          avatar="https://github.com/shadcn.png"
+          name="username"
+          prediction="B WILL WIN"
+          possibility={85}
+          status={"To be revealed"}
+        />
+      </main>
+    </div>
   );
 }
