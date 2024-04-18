@@ -76,7 +76,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         console.log("submit", event);
         toast("Prediction created");
       }}
-      className={cn("grid items-start gap-4", className)}
+      className={cn("grid items-start gap-4 mt-2", className)}
     >
       <div className="grid gap-2">
         <Label htmlFor="prediction">Prediction *</Label>

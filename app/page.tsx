@@ -1,6 +1,61 @@
-import { CardDemo } from "@/components/CardDemo";
+import { CardDemo, Prediction } from "@/components/CardDemo";
 import { PredictDialog } from "@/components/PredictDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const predictions: Prediction[] = [
+  {
+    user: {
+      name: "username",
+      avatar: "https://github.com/shadcn.png",
+    },
+    prediction: {
+      content: "A WILL WIN",
+      possibility: 55,
+      evidence: "1111111111",
+      risk: "risk",
+      status: "Incorrect",
+    },
+  },
+  {
+    user: {
+      name: "username",
+      avatar: "https://github.com/shadcn.png",
+    },
+    prediction: {
+      content: "A WILL WIN",
+      possibility: 55,
+      evidence: "1111111111",
+      risk: "risk",
+      status: "Correct",
+    },
+  },
+  {
+    user: {
+      name: "username",
+      avatar: "https://github.com/shadcn.png",
+    },
+    prediction: {
+      content: "A WILL WIN",
+      possibility: 55,
+      evidence: "1111111111",
+      risk: "risk",
+      status: "To be revealed",
+    },
+  },
+  {
+    user: {
+      name: "username",
+      avatar: "https://github.com/shadcn.png",
+    },
+    prediction: {
+      content: "A WILL WIN",
+      possibility: 55,
+      evidence: "1111111111",
+      risk: "risk",
+      status: "To be revealed",
+    },
+  },
+];
 
 export default function Home() {
   return (
@@ -13,27 +68,9 @@ export default function Home() {
         <PredictDialog />
       </header>
       <main className="flex flex-col items-center gap-6">
-        <CardDemo
-          avatar="https://github.com/shadcn.png"
-          name="username"
-          prediction="A WILL WIN"
-          possibility={55}
-          status={"Incorrect"}
-        />
-        <CardDemo
-          avatar="https://github.com/shadcn.png"
-          name="username"
-          prediction="B WILL WIN"
-          possibility={85}
-          status={"Correct"}
-        />
-        <CardDemo
-          avatar="https://github.com/shadcn.png"
-          name="username"
-          prediction="B WILL WIN"
-          possibility={85}
-          status={"To be revealed"}
-        />
+        {predictions.map((p, index) => (
+          <CardDemo key={index} user={p.user} prediction={p.prediction} />
+        ))}
       </main>
     </div>
   );

@@ -12,48 +12,46 @@ import { Progress } from "./ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import clsx from "clsx";
 
-type CardProps = React.ComponentProps<typeof Card> & {
-  avatar: string;
-  name: string;
-  prediction: string;
-  status: "Correct" | "Incorrect" | "To be revealed";
-  possibility: number;
+export type Prediction = {
+  user: {
+    avatar: string;
+    name: string;
+  };
+  prediction: {
+    content: string;
+    possibility: number;
+    status: "Correct" | "Incorrect" | "To be revealed";
+    evidence?: string;
+    risk?: string;
+  };
 };
+type CardProps = React.ComponentProps<typeof Card> & Prediction;
 
-export function CardDemo({
-  className,
-  avatar,
-  name,
-  prediction,
-  status,
-  possibility,
-  ...props
-}: CardProps) {
+export function CardDemo({ className, user, prediction, ...props }: CardProps) {
   return (
     <Card className={cn(className)} {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-4 sm:min-w-[380px] min-w-[70vw]">
           <Avatar>
-            <AvatarImage src={avatar} />
-            <AvatarFallback>{name}</AvatarFallback>
+            <AvatarImage src={user.avatar} />
           </Avatar>
-          {prediction}
+          {prediction.content}
         </CardTitle>
         <CardDescription
           className={clsx(
-            status === "Correct"
+            prediction.status === "Correct"
               ? "text-green-500"
-              : status === "Incorrect"
+              : prediction.status === "Incorrect"
                 ? "text-red-500"
                 : "text-gray-500",
           )}
         >
-          {status}
+          {prediction.status}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center gap-4">
-        <Progress value={possibility} />
-        {possibility}%
+        <Progress value={prediction.possibility} />
+        {prediction.possibility}%
       </CardContent>
       <CardFooter className="flex gap-2 text-gray-500">
         <Button variant="outline">🔥 10</Button>
