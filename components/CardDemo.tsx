@@ -31,14 +31,15 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
   return (
     <Card className={cn(className)} {...props}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-4 sm:min-w-[380px] min-w-[70vw]">
-          <Avatar>
+        <CardTitle className="flex items-center gap-4 sm:w-96 w-[70vw]">
+          <Avatar className="self-start">
             <AvatarImage src={user.avatar} />
           </Avatar>
           {prediction.content}
         </CardTitle>
         <CardDescription
           className={clsx(
+            "font-medium",
             prediction.status === "Correct"
               ? "text-green-500"
               : prediction.status === "Incorrect"

@@ -9,7 +9,8 @@ const predictions: Prediction[] = [
       avatar: "https://github.com/shadcn.png",
     },
     prediction: {
-      content: "A WILL WIN",
+      content:
+        "A WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WIN",
       possibility: 55,
       evidence: "1111111111",
       risk: "risk",
