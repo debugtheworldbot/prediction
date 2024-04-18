@@ -1,6 +1,6 @@
 import { auth, signIn } from "@/auth";
 
-export function SignIn() {
+function SignIn() {
   return (
     <form
       action={async () => {
@@ -17,7 +17,7 @@ export default async function Detail({ params }: { params: { id: string } }) {
   return (
     <div>
       <p>Post: {params.id}</p>
-      <SignIn />
+      {session?.user ? <p>Logged in as {session?.user.name}</p> : <SignIn />}
     </div>
   );
 }
