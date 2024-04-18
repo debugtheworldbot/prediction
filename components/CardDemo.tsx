@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,8 +8,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "./ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarImage } from "./ui/avatar";
 import clsx from "clsx";
+import Reactions from "./Reactions";
 
 export type Prediction = {
   user: {
@@ -32,7 +32,7 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
     <Card className={cn(className)} {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-4 sm:w-96 w-[70vw]">
-          <Avatar className="self-start">
+          <Avatar className="self-start cursor-pointer">
             <AvatarImage src={user.avatar} />
           </Avatar>
           {prediction.content}
@@ -55,10 +55,7 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
         {prediction.possibility}%
       </CardContent>
       <CardFooter className="flex gap-2 text-gray-500">
-        <Button variant="outline">🔥 10</Button>
-        <Button variant="outline">🤣</Button>
-        <Button variant="outline">👍</Button>
-        <Button variant="outline">🤔</Button>
+        <Reactions />
       </CardFooter>
     </Card>
   );
