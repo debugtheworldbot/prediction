@@ -12,7 +12,14 @@ export default function Reactions() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="rounded-full border w-8 h-8 p-0">
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+          }}
+          variant="outline"
+          className="rounded-full border w-8 h-8 p-0"
+        >
           {emoji}
         </Button>
       </PopoverTrigger>

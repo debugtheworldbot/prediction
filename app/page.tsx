@@ -5,10 +5,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const predictions: Prediction[] = [
   {
     user: {
+      id: "1",
       name: "username",
       avatar: "https://github.com/shadcn.png",
     },
     prediction: {
+      id: "1aaa",
       content:
         "A WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WIN",
       possibility: 55,
@@ -19,10 +21,12 @@ const predictions: Prediction[] = [
   },
   {
     user: {
+      id: "1",
       name: "username",
       avatar: "https://github.com/shadcn.png",
     },
     prediction: {
+      id: "1",
       content: "A WILL WIN",
       possibility: 55,
       evidence: "1111111111",
@@ -32,10 +36,12 @@ const predictions: Prediction[] = [
   },
   {
     user: {
+      id: "1",
       name: "username",
       avatar: "https://github.com/shadcn.png",
     },
     prediction: {
+      id: "1",
       content: "A WILL WIN",
       possibility: 55,
       evidence: "1111111111",
@@ -45,10 +51,12 @@ const predictions: Prediction[] = [
   },
   {
     user: {
+      id: "1",
       name: "username",
       avatar: "https://github.com/shadcn.png",
     },
     prediction: {
+      id: "1",
       content: "A WILL WIN",
       possibility: 55,
       evidence: "1111111111",
