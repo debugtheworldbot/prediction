@@ -10,15 +10,25 @@ const supabase = createClient(
 );
 async function signInWithGithub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "github",
+    provider: "google",
   });
 }
 
 export default function Auth() {
   useEffect(() => {
-    supabase.auth.getUser().then((data) => {
+    supabase.auth.getSession().then((data) => {
       console.log(data);
     });
-  });
-  return <Button onClick={signInWithGithub}>github Auth</Button>;
+    supabase.auth.getUserIdentities().then((data) => {
+      console.log("iiiiiii", data);
+    });
+    supabase.auth.getUser().then((data) => {
+      console.log("user", data);
+    });
+  }, []);
+  return (
+    <div>
+      <Button onClick={signInWithGithub}>google Auth</Button>;
+    </div>
+  );
 }

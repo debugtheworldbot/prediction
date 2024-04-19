@@ -1,5 +1,7 @@
+import Auth from "@/components/Auth";
 import { CardDemo, Prediction } from "@/components/CardDemo";
 import { PredictDialog } from "@/components/PredictDialog";
+import ServerAuth from "@/components/ServerAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const predictions: Prediction[] = [
@@ -77,6 +79,8 @@ export default function Home() {
         <PredictDialog />
       </header>
       <main className="flex flex-col items-center gap-6">
+        <Auth />
+        <ServerAuth />
         {predictions.map((p, index) => (
           <CardDemo key={index} user={p.user} prediction={p.prediction} />
         ))}
