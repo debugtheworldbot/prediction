@@ -13,6 +13,12 @@ import clsx from "clsx";
 import Reactions from "./Reactions";
 import Link from "next/link";
 
+export enum PredictionStatus {
+  Correct,
+  Incorrect,
+  ToBeRevealed,
+}
+
 export type Prediction = {
   user: {
     id: string;
@@ -23,12 +29,18 @@ export type Prediction = {
     id: string;
     content: string;
     possibility: number;
-    status: "Correct" | "Incorrect" | "To be revealed";
+    status: PredictionStatus;
     evidence?: string;
     risk?: string;
   };
 };
 type CardProps = React.ComponentProps<typeof Card> & Prediction;
+
+const statusMap = {
+  [PredictionStatus.Correct]: "Correct",
+  [PredictionStatus.Incorrect]: "Incorrect",
+  [PredictionStatus.ToBeRevealed]: "To be revealed",
+};
 
 export function CardDemo({ className, user, prediction, ...props }: CardProps) {
   return (
@@ -44,14 +56,14 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
           <CardDescription
             className={clsx(
               "font-medium",
-              prediction.status === "Correct"
+              prediction.status === PredictionStatus.Correct
                 ? "text-green-500"
-                : prediction.status === "Incorrect"
+                : prediction.status === PredictionStatus.Incorrect
                   ? "text-red-500"
                   : "text-gray-500",
             )}
           >
-            {prediction.status}
+            {statusMap[prediction.status]}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex items-center gap-4">

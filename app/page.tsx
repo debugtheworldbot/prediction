@@ -1,5 +1,5 @@
 import Auth from "@/components/Auth";
-import { CardDemo, Prediction } from "@/components/CardDemo";
+import { CardDemo, Prediction, PredictionStatus } from "@/components/CardDemo";
 import { PredictDialog } from "@/components/PredictDialog";
 import ServerAuth from "@/components/ServerAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,7 +18,7 @@ const predictions: Prediction[] = [
       possibility: 85,
       evidence: "1111111111",
       risk: "risk",
-      status: "Incorrect",
+      status: PredictionStatus.Incorrect,
     },
   },
   {
@@ -33,37 +33,7 @@ const predictions: Prediction[] = [
       possibility: 25,
       evidence: "1111111111",
       risk: "risk",
-      status: "Correct",
-    },
-  },
-  {
-    user: {
-      id: "1",
-      name: "username",
-      avatar: "https://github.com/shadcn.png",
-    },
-    prediction: {
-      id: "1",
-      content: "A WILL WIN",
-      possibility: 55,
-      evidence: "1111111111",
-      risk: "risk",
-      status: "To be revealed",
-    },
-  },
-  {
-    user: {
-      id: "1",
-      name: "username",
-      avatar: "https://github.com/shadcn.png",
-    },
-    prediction: {
-      id: "1",
-      content: "A WILL WIN",
-      possibility: 55,
-      evidence: "1111111111",
-      risk: "risk",
-      status: "To be revealed",
+      status: PredictionStatus.Correct,
     },
   },
 ];

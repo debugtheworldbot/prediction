@@ -33,19 +33,29 @@ export async function createPrediction(formData: FormData) {
     evidence: formData.get("evidence"),
     risk: formData.get("risk"),
   });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  console.log("create", validatedFields);
+  const {
+    user_metadata: { avatar_url, email, name },
+  } = user!;
+
   // Return early if the form data is invalid
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-  const { data, error } = await supabase.from("predictions").insert({
+  const { error } = await supabase.from("predictions").insert({
     ...validatedFields.data,
     status: "To be revealed",
+    userInfo: {
+      avatar_url,
+      email,
+      name,
+    },
   });
-  console.log(error);
 
   if (error) {
     return {
