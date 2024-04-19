@@ -14,7 +14,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -25,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Slider } from "./ui/slider";
 import { toast } from "sonner";
+import { createPrediction } from "@/app/actions";
 
 export function PredictDialog() {
   const [open, setOpen] = useState(false);
@@ -71,9 +71,10 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
   const [possibility, setPossibility] = useState(33);
   return (
     <form
-      onSubmit={async (event) => {
-        event.preventDefault();
-        console.log("submit", event);
+      // onSubmit={(event) => event.preventDefault()}
+      action={async (formData: FormData) => {
+        const result = await createPrediction(formData);
+        console.log(result);
         toast("Prediction created");
       }}
       className={cn("grid items-start gap-4 mt-2", className)}
@@ -81,7 +82,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
       <div className="grid gap-2">
         <Label htmlFor="prediction">Prediction *</Label>
         <Input
-          id="prediction"
+          name="prediction"
           onChange={(e) => {
             setCanSave(e.target.value.length > 0);
           }}
@@ -92,7 +93,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         <Label htmlFor="possibility">Possibility</Label>
         <div className="flex gap-4">
           <Slider
-            id="possibility"
+            name="possibility"
             defaultValue={[possibility]}
             onValueChange={(v) => {
               setPossibility(v[0]);
@@ -105,11 +106,11 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="evidence">Evidence</Label>
-        <Input id="evidence" placeholder="What support your prediction?" />
+        <Input name="evidence" placeholder="What support your prediction?" />
       </div>
       <div className="grid gap-2">
         <Label htmlFor="risk">Risk</Label>
-        <Input id="rist" placeholder="What against your prediction?" />
+        <Input name="risk" placeholder="What against your prediction?" />
       </div>
       <DialogClose asChild>
         <Button disabled={!canSave} type="submit">
