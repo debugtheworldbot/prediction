@@ -71,7 +71,6 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
   const [possibility, setPossibility] = useState(33);
   return (
     <form
-      // onSubmit={(event) => event.preventDefault()}
       action={async (formData: FormData) => {
         const result = await createPrediction(formData);
         console.log(result);

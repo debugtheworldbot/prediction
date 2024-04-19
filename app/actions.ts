@@ -40,9 +40,7 @@ export async function createPrediction(formData: FormData) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const {
-    user_metadata: { avatar_url, email, name },
-  } = user!;
+  const { avatar_url, email, name } = user?.user_metadata || {};
 
   // Return early if the form data is invalid
   if (!validatedFields.success) {

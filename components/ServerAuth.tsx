@@ -10,7 +10,7 @@ async function signIn() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "http://localhost:3000/api/auth/callback",
+      redirectTo: "https://prediction-y26g.onrender.com/api/auth/callback",
     },
   });
 
