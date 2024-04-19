@@ -97,6 +97,7 @@ export function CardDemo({
             .filter(([, v]) => v && v > 0)
             .map(([k, v]) => (
               <Button
+                key={k}
                 variant="outline"
                 className="rounded-full border px-2 h-8"
               >

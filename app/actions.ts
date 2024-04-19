@@ -69,7 +69,6 @@ export async function createPrediction(formData: FormData) {
       name,
     },
   });
-  revalidatePath("/");
 
   if (error) {
     return {
@@ -77,5 +76,6 @@ export async function createPrediction(formData: FormData) {
     };
   }
 
+  revalidatePath("/");
   // ...
 }

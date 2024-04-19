@@ -1,24 +1,13 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -28,53 +17,40 @@ import { createPrediction } from "@/app/actions";
 
 export function PredictDialog() {
   const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button>+ prediction</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>New Prediction</DialogTitle>
-          </DialogHeader>
-          <ProfileForm />
-        </DialogContent>
-      </Dialog>
-    );
-  }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button>+ prediction</Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
-        </DrawerHeader>
-        <ProfileForm className="px-4" />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>New Prediction</DialogTitle>
+        </DialogHeader>
+        <ProfileForm closeDialog={() => setOpen(false)} />
+      </DialogContent>
+    </Dialog>
   );
 }
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
+function ProfileForm({
+  className,
+  closeDialog,
+}: React.ComponentProps<"form"> & { closeDialog: () => void }) {
   const [canSave, setCanSave] = useState(false);
+  const [pending, setPending] = useState(false);
   const [possibility, setPossibility] = useState(33);
   return (
     <form
       action={async (formData: FormData) => {
-        const result = await createPrediction(formData);
-        console.log(result);
+        console.log("sssssssssssubmit");
+        await createPrediction(formData);
+        closeDialog();
         toast("Prediction created");
+      }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log("submit");
       }}
       className={cn("grid items-start gap-4 mt-2", className)}
     >
@@ -111,11 +87,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         <Label htmlFor="risk">Risk</Label>
         <Input name="risk" placeholder="What against your prediction?" />
       </div>
-      <DialogClose asChild>
-        <Button disabled={!canSave} type="submit">
-          Create
-        </Button>
-      </DialogClose>
+      <Button type="submit">{pending ? "Loading..." : "Create"}</Button>
     </form>
   );
 }
