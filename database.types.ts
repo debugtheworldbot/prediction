@@ -53,6 +53,47 @@ export type Database = {
           },
         ]
       }
+      reactions: {
+        Row: {
+          created_at: string
+          down: number | null
+          fire: number | null
+          id: string
+          lol: number | null
+          thinking: number | null
+          up: number | null
+          watching: number | null
+        }
+        Insert: {
+          created_at?: string
+          down?: number | null
+          fire?: number | null
+          id: string
+          lol?: number | null
+          thinking?: number | null
+          up?: number | null
+          watching?: number | null
+        }
+        Update: {
+          created_at?: string
+          down?: number | null
+          fire?: number | null
+          id?: string
+          lol?: number | null
+          thinking?: number | null
+          up?: number | null
+          watching?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_reactions_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "predictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

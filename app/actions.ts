@@ -24,7 +24,19 @@ export async function getPredictions() {
   const supabase = createClient();
   const { data: predictions, error } = await supabase
     .from("predictions")
-    .select("*");
+    .select(
+      `
+    id,
+    content,
+    possibility,
+    status,
+    evidence,
+    risk,
+    userInfo,
+    reactions ( up, down, fire, lol, thinking, watching )
+`,
+    )
+    .order("created_at", { ascending: false });
   return predictions;
 }
 

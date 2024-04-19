@@ -1,5 +1,3 @@
-"use client";
-import React from "react";
 import {
   Popover,
   PopoverClose,
@@ -10,34 +8,35 @@ import { Button } from "./ui/button";
 
 export default function Reactions() {
   return (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        e.nativeEvent.preventDefault();
-      }}
-    >
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className="rounded-full border w-8 h-8 p-0">
-            {emoji}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="flex gap-2">
-          {reactions.map((r) => (
-            <PopoverClose
-              className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
-              onClick={() => { }}
-              key={r}
-            >
-              {r}
-            </PopoverClose>
-          ))}
-        </PopoverContent>
-      </Popover>
-    </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className="rounded-full border w-8 h-8 p-0">
+          {emoji}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="flex gap-2">
+        {reactions.map((r) => (
+          <PopoverClose
+            className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
+            key={r}
+          >
+            {r}
+          </PopoverClose>
+        ))}
+      </PopoverContent>
+    </Popover>
   );
 }
 const reactions = ["👍", "👎", "🔥", "🤣", "🤔", "👀"];
+
+export const reactionMap = {
+  up: "👍",
+  down: "👎",
+  fire: "🔥",
+  lol: "🤣",
+  thinking: "🤔",
+  watching: "👀",
+};
 
 const emoji = (
   <svg

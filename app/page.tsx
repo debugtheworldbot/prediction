@@ -24,6 +24,7 @@ export default async function Home() {
               evidence: p.evidence,
               risk: p.risk,
             }}
+            reactions={p.reactions}
           />
         ))}
       </main>
