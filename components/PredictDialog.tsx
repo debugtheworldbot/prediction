@@ -100,7 +100,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
             max={100}
             step={1}
           />
-          <span>{possibility}%</span>
+          <span className="font-momo w-10">{possibility}%</span>
         </div>
       </div>
       <div className="grid gap-2">

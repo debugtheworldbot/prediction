@@ -11,7 +11,7 @@ import { Progress } from "./ui/progress";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import clsx from "clsx";
 import Reactions from "./Reactions";
-import Link from "next/link";
+import { Badge } from "./ui/badge";
 
 export enum PredictionStatus {
   Correct,
@@ -44,38 +44,54 @@ const statusMap = {
 
 export function CardDemo({ className, user, prediction, ...props }: CardProps) {
   return (
-    <Link href={`/prediction/${prediction.id}`}>
-      <Card className={cn(className)} {...props}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-4 sm:w-[40rem] w-[70vw]">
-            <Avatar className="self-start cursor-pointer">
-              <AvatarImage src={user.avatar_url} />
-            </Avatar>
-            {prediction.content}
-          </CardTitle>
-          <CardDescription
-            className={clsx(
-              "font-medium",
-              prediction.status === PredictionStatus.Correct
-                ? "text-green-500"
-                : prediction.status === PredictionStatus.Incorrect
-                  ? "text-red-500"
-                  : "text-gray-500",
-            )}
-          >
-            {statusMap[prediction.status]}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex items-center gap-4">
+    <Card className={cn(className, "w-[70vw] sm:w-[40rem]")} {...props}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-4">
+          <Avatar className="self-start cursor-pointer">
+            <AvatarImage src={user.avatar_url} />
+          </Avatar>
+          {prediction.content}
+        </CardTitle>
+        <CardDescription></CardDescription>
+      </CardHeader>
+      <CardContent>
+        {prediction.evidence && (
+          <div className="break-all flex items-center gap-2">
+            <Badge className="flex-shrink-0">PROS</Badge>
+            {prediction?.evidence}
+            aljdlksajdjddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+          </div>
+        )}
+        {prediction.risk && (
+          <div className="break-all flex items-center gap-2">
+            <Badge variant="destructive" className="self-start flex-shrink-0">
+              CONS
+            </Badge>
+            {prediction?.risk}
+          </div>
+        )}
+        <div className="flex items-center gap-4 mt-4">
           <Progress value={prediction.possibility} />
           <span className="font-mono font-medium">
             {prediction.possibility}%
           </span>
-        </CardContent>
-        <CardFooter className="flex gap-2 text-gray-500">
-          <Reactions />
-        </CardFooter>
-      </Card>
-    </Link>
+        </div>
+      </CardContent>
+      <CardFooter className="flex gap-2 text-gray-500">
+        <Reactions />
+        <span
+          className={clsx(
+            "font-medium text-center",
+            prediction.status === PredictionStatus.Correct
+              ? "text-green-500"
+              : prediction.status === PredictionStatus.Incorrect
+                ? "text-red-500"
+                : "text-gray-500",
+          )}
+        >
+          {statusMap[prediction.status]}
+        </span>
+      </CardFooter>
+    </Card>
   );
 }

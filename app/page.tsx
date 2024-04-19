@@ -6,7 +6,7 @@ import { getPredictions } from "./actions";
 export default async function Home() {
   const predictions = await getPredictions();
   return (
-    <div className="px-4">
+    <div className="px-4 pb-8">
       <header className="flex justify-end items-center gap-4 py-4">
         <ServerAuth />
         <PredictDialog />
