@@ -3,14 +3,17 @@ import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { headers } from "next/headers";
 
 async function signIn() {
   "use server";
   const supabase = createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const headersList = headers();
+  const domain = headersList.get("origin") || "http://localhost:3000";
+  const { data } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "https://prediction-y26g.onrender.com/api/auth/callback",
+      redirectTo: `${domain}/api/auth/callback`,
     },
   });
 
