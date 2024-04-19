@@ -72,15 +72,10 @@ export default function Home() {
   return (
     <div className="px-4">
       <header className="flex justify-end items-center gap-4 py-4">
-        <Avatar className="cursor-pointer">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <ServerAuth />
         <PredictDialog />
       </header>
       <main className="flex flex-col items-center gap-6">
-        <Auth />
-        <ServerAuth />
         {predictions.map((p, index) => (
           <CardDemo key={index} user={p.user} prediction={p.prediction} />
         ))}
