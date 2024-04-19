@@ -1,11 +1,10 @@
-import { CardDemo, Prediction, PredictionStatus } from "@/components/CardDemo";
+import { CardDemo, Prediction } from "@/components/CardDemo";
 import { PredictDialog } from "@/components/PredictDialog";
 import ServerAuth from "@/components/ServerAuth";
 import { getPredictions } from "./actions";
 
 export default async function Home() {
   const predictions = await getPredictions();
-  console.log(predictions);
   return (
     <div className="px-4">
       <header className="flex justify-end items-center gap-4 py-4">

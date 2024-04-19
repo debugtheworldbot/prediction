@@ -2,6 +2,7 @@
 
 import { PredictionStatus } from "@/components/CardDemo";
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const schema = z.object({
@@ -29,13 +30,6 @@ export async function getPredictions() {
 
 export async function createPrediction(formData: FormData) {
   const supabase = createClient();
-  console.log(
-    "pp",
-    formData.get("prediction"),
-    formData.get("possibility"),
-    formData.get("evidence"),
-    formData.get("risk"),
-  );
   const validatedFields = schema.safeParse({
     content: formData.get("prediction"),
     possibility: parseInt((formData.get("possibility") as string) || "0"),
@@ -65,6 +59,7 @@ export async function createPrediction(formData: FormData) {
       name,
     },
   });
+  revalidatePath("/");
 
   if (error) {
     return {
