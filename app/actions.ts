@@ -1,5 +1,6 @@
 "use server";
 
+import { PredictionStatus } from "@/components/CardDemo";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
 
@@ -17,6 +18,14 @@ const schema = z.object({
     invalid_type_error: "Invalid risk",
   }),
 });
+
+export async function getPredictions() {
+  const supabase = createClient();
+  const { data: predictions, error } = await supabase
+    .from("predictions")
+    .select("*");
+  return predictions;
+}
 
 export async function createPrediction(formData: FormData) {
   const supabase = createClient();
@@ -49,7 +58,7 @@ export async function createPrediction(formData: FormData) {
   }
   const { error } = await supabase.from("predictions").insert({
     ...validatedFields.data,
-    status: "To be revealed",
+    status: PredictionStatus.ToBeRevealed,
     userInfo: {
       avatar_url,
       email,

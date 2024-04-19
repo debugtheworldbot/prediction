@@ -21,8 +21,8 @@ export enum PredictionStatus {
 
 export type Prediction = {
   user: {
-    id: string;
-    avatar: string;
+    avatar_url: string;
+    email: string;
     name: string;
   };
   prediction: {
@@ -30,8 +30,8 @@ export type Prediction = {
     content: string;
     possibility: number;
     status: PredictionStatus;
-    evidence?: string;
-    risk?: string;
+    evidence: string | null;
+    risk: string | null;
   };
 };
 type CardProps = React.ComponentProps<typeof Card> & Prediction;
@@ -49,7 +49,7 @@ export function CardDemo({ className, user, prediction, ...props }: CardProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-4 sm:w-[40rem] w-[70vw]">
             <Avatar className="self-start cursor-pointer">
-              <AvatarImage src={user.avatar} />
+              <AvatarImage src={user.avatar_url} />
             </Avatar>
             {prediction.content}
           </CardTitle>

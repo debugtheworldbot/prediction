@@ -1,44 +1,11 @@
-import Auth from "@/components/Auth";
 import { CardDemo, Prediction, PredictionStatus } from "@/components/CardDemo";
 import { PredictDialog } from "@/components/PredictDialog";
 import ServerAuth from "@/components/ServerAuth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getPredictions } from "./actions";
 
-const predictions: Prediction[] = [
-  {
-    user: {
-      id: "1",
-      name: "username",
-      avatar: "https://github.com/shadcn.png",
-    },
-    prediction: {
-      id: "1aaa",
-      content:
-        "A WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WINA WILL WIN p content: A WILL WIN",
-      possibility: 85,
-      evidence: "1111111111",
-      risk: "risk",
-      status: PredictionStatus.Incorrect,
-    },
-  },
-  {
-    user: {
-      id: "1",
-      name: "username",
-      avatar: "https://github.com/shadcn.png",
-    },
-    prediction: {
-      id: "1",
-      content: "A WILL WIN",
-      possibility: 25,
-      evidence: "1111111111",
-      risk: "risk",
-      status: PredictionStatus.Correct,
-    },
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const predictions = await getPredictions();
+  console.log(predictions);
   return (
     <div className="px-4">
       <header className="flex justify-end items-center gap-4 py-4">
@@ -46,8 +13,19 @@ export default function Home() {
         <PredictDialog />
       </header>
       <main className="flex flex-col items-center gap-6">
-        {predictions.map((p, index) => (
-          <CardDemo key={index} user={p.user} prediction={p.prediction} />
+        {predictions?.map((p, index) => (
+          <CardDemo
+            key={index}
+            user={p.userInfo as Prediction["user"]}
+            prediction={{
+              id: p.id,
+              content: p.content,
+              possibility: p.possibility,
+              status: p.status,
+              evidence: p.evidence,
+              risk: p.risk,
+            }}
+          />
         ))}
       </main>
     </div>
