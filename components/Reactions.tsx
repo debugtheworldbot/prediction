@@ -31,7 +31,7 @@ export function Reactions(props: {
             )}
             key={k}
             onClick={async () => {
-              await makeReaction(props.id, { [k]: true });
+              await makeReaction(props.id, { [k]: !props.selfReactions[k] });
             }}
           >
             {v}
