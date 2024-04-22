@@ -1,4 +1,4 @@
-import { CardDemo, Prediction } from "@/components/CardDemo";
+import { PredictionCard, Prediction } from "@/components/PredictionCard";
 import { PredictDialog } from "@/components/PredictDialog";
 import ServerAuth from "@/components/ServerAuth";
 import { getPredictions } from "./actions";
@@ -13,7 +13,7 @@ export default async function Home() {
       </header>
       <main className="flex flex-col items-center gap-6">
         {predictions?.map((p, index) => (
-          <CardDemo
+          <PredictionCard
             key={index}
             user={p.userInfo as Prediction["user"]}
             prediction={{

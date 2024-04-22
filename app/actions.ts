@@ -1,6 +1,6 @@
 "use server";
 
-import { PredictionStatus } from "@/components/CardDemo";
+import { PredictionStatus } from "@/components/PredictionCard";
 import { updateCounts } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";

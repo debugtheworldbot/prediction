@@ -61,7 +61,7 @@ const statusMap = {
   [PredictionStatus.ToBeRevealed]: "To be revealed",
 };
 
-export async function CardDemo({
+export async function PredictionCard({
   className,
   user,
   prediction,

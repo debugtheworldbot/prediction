@@ -8,7 +8,7 @@ import {
 import { Button } from "./ui/button";
 import { makeReaction } from "@/app/actions";
 import { reactionMap, getEntries } from "@/lib/utils";
-import { Prediction } from "./CardDemo";
+import { Prediction } from "./PredictionCard";
 import clsx from "clsx";
 
 export function Reactions(props: {
