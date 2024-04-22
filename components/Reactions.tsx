@@ -7,6 +7,7 @@ import {
 } from "./ui/popover";
 import { Button } from "./ui/button";
 import { makeReaction } from "@/app/actions";
+import { reactionMap, getEntries } from "@/lib/utils";
 
 export function Reactions(props: { id: string }) {
   return (
@@ -17,22 +18,21 @@ export function Reactions(props: { id: string }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex gap-2">
-        {reactions.map((r) => (
+        {getEntries(reactionMap).map(([k, v]) => (
           <PopoverClose
             className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
-            key={r}
+            key={k}
             onClick={async () => {
-              await makeReaction({ id: props.id, type: "down" });
+              await makeReaction(props.id, { [k]: true });
             }}
           >
-            {r}
+            {v}
           </PopoverClose>
         ))}
       </PopoverContent>
     </Popover>
   );
 }
-const reactions = ["👍", "👎", "🔥", "🤣", "🤔", "👀"];
 
 const emoji = (
   <svg

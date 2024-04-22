@@ -1,7 +1,7 @@
 "use server";
 
 import { PredictionStatus } from "@/components/CardDemo";
-import { Reaction } from "@/lib/utils";
+import { updateCounts } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -21,33 +21,57 @@ const schema = z.object({
   }),
 });
 
-export async function makeReaction(payload: {
-  id: string;
-  type: Reaction;
-  isIncrement?: boolean;
-}) {
+export async function makeReaction(
+  id: string,
+  payload: {
+    up?: boolean;
+    down?: boolean;
+    fire?: boolean;
+    lol?: boolean;
+    thinking?: boolean;
+    watching?: boolean;
+  },
+) {
   const supabase = createClient();
-  const { type, isIncrement = true } = payload;
-  const { data: reaction, error } = await supabase
-    .from("reactions")
-    .select("*")
-    .eq("id", payload.id);
-  const value = reaction?.[0];
-  if (value) {
-    const { data, error } = await supabase
-      .from("reactions")
-      .update({
-        ...value,
-        [type]: isIncrement
-          ? (value[type] || 0) + 1
-          : Math.max((value[type] || 0) - 1, 0),
-      })
-      .eq("id", payload.id);
-  } else {
-    const { data, error } = await supabase
-      .from("reactions")
-      .insert({ id: payload.id, [type]: 1 });
+  const user = await supabase.auth.getUser();
+  if (!user.data?.user) {
+    console.error("User not found");
+    return;
   }
+  const { data: existingRow } = await supabase
+    .from("user_reactions")
+    .select("id")
+    .eq("reaction_id", id)
+    .eq("user_id", user.data.user.id);
+  if (existingRow && existingRow.length > 0) {
+    const { error } = await supabase
+      .from("user_reactions")
+      .update({ ...payload })
+      .match({ id: existingRow[0].id });
+    if (error) {
+      console.log(error);
+    }
+  } else {
+    const { error } = await supabase.from("user_reactions").insert([
+      {
+        ...payload,
+        reaction_id: id,
+        user_id: user.data.user.id,
+      },
+    ]);
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  const { data: result } = await supabase
+    .from("user_reactions")
+    .select("*")
+    .eq("reaction_id", id);
+
+  const counts = updateCounts(result);
+  await supabase.from("reactions").update(counts).eq("id", id);
+
   revalidatePath("/");
   return "ok";
 }
@@ -65,10 +89,14 @@ export async function getPredictions() {
     evidence,
     risk,
     userInfo,
-    reactions ( up, down, fire, lol, thinking, watching )
+    reactions ( up, down, fire, lol, thinking, watching ),
+    user_reactions ( user_id, up, down, fire, lol, thinking, watching )
 `,
     )
     .order("created_at", { ascending: false });
+  if (error) {
+    throw error;
+  }
   return predictions;
 }
 

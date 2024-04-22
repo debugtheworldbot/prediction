@@ -94,6 +94,60 @@ export type Database = {
           },
         ]
       }
+      user_reactions: {
+        Row: {
+          created_at: string
+          down: boolean | null
+          fire: boolean | null
+          id: string
+          lol: boolean | null
+          reaction_id: string | null
+          thinking: boolean | null
+          up: boolean | null
+          user_id: string | null
+          watching: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          down?: boolean | null
+          fire?: boolean | null
+          id?: string
+          lol?: boolean | null
+          reaction_id?: string | null
+          thinking?: boolean | null
+          up?: boolean | null
+          user_id?: string | null
+          watching?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          down?: boolean | null
+          fire?: boolean | null
+          id?: string
+          lol?: boolean | null
+          reaction_id?: string | null
+          thinking?: boolean | null
+          up?: boolean | null
+          user_id?: string | null
+          watching?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_user_reactions_reaction_id_fkey"
+            columns: ["reaction_id"]
+            isOneToOne: false
+            referencedRelation: "predictions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_user_reactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,4 +1,4 @@
-import { cn, reactionMap } from "@/lib/utils";
+import { cn, getEntries, reactionMap } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -123,10 +123,3 @@ export function CardDemo({
     </Card>
   );
 }
-
-const getEntries = <T extends object>(obj: T) =>
-  Object.entries(obj) as Entries<T>;
-
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
