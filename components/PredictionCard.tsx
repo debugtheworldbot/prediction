@@ -13,6 +13,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Reactions } from "./Reactions";
 import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 
 export enum PredictionStatus {
   Correct,
@@ -25,6 +26,7 @@ export type Prediction = {
     avatar_url: string;
     email: string;
     name: string;
+    id: string;
   };
   prediction: {
     id: string;
@@ -79,9 +81,11 @@ export async function PredictionCard({
     <Card className={cn(className, "w-[70vw] sm:w-[40rem]")} {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-4">
-          <Avatar className="self-start cursor-pointer">
-            <AvatarImage src={user.avatar_url} />
-          </Avatar>
+          <Link href={`/user/${user.id}`}>
+            <Avatar className="self-start cursor-pointer">
+              <AvatarImage src={user.avatar_url} />
+            </Avatar>
+          </Link>
           {prediction.content}
         </CardTitle>
       </CardHeader>

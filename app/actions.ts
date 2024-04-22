@@ -127,6 +127,7 @@ export async function createPrediction(formData: FormData) {
       avatar_url,
       email,
       name,
+      id: user?.id,
     },
   });
 
