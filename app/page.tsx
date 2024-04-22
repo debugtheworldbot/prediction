@@ -16,6 +16,7 @@ export default async function Home() {
           <PredictionCard
             key={index}
             user={p.userInfo as Prediction["user"]}
+            userId={p.userId || ""}
             prediction={{
               id: p.id,
               content: p.content,

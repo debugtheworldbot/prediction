@@ -70,18 +70,20 @@ export async function makeReaction(
     .eq("reaction_id", id);
 
   const counts = updateCounts(result);
-  await supabase.from("reactions").update(counts).eq("id", id);
+  await supabase.from("reactions").upsert({ ...counts, id });
 
   revalidatePath("/");
   return "ok";
 }
 
-export async function getPredictions() {
+export async function getPredictions(userId?: string) {
   const supabase = createClient();
-  const { data: predictions, error } = await supabase
-    .from("predictions")
-    .select(
-      `
+
+  if (userId) {
+    const { data: predictions, error } = await supabase
+      .from("predictions")
+      .select(
+        `
     id,
     content,
     possibility,
@@ -89,15 +91,40 @@ export async function getPredictions() {
     evidence,
     risk,
     userInfo,
+    userId,
     reactions ( up, down, fire, lol, thinking, watching ),
     user_reactions ( user_id, up, down, fire, lol, thinking, watching )
 `,
-    )
-    .order("created_at", { ascending: false });
-  if (error) {
-    throw error;
+      )
+      .eq("userId", userId)
+      .order("created_at", { ascending: false });
+    if (error) {
+      console.error(error);
+    }
+    return predictions;
+  } else {
+    const { data: predictions, error } = await supabase
+      .from("predictions")
+      .select(
+        `
+    id,
+    content,
+    possibility,
+    status,
+    evidence,
+    risk,
+    userInfo,
+    userId,
+    reactions ( up, down, fire, lol, thinking, watching ),
+    user_reactions ( user_id, up, down, fire, lol, thinking, watching )
+`,
+      )
+      .order("created_at", { ascending: false });
+    if (error) {
+      console.error(error);
+    }
+    return predictions;
   }
-  return predictions;
 }
 
 export async function createPrediction(formData: FormData) {

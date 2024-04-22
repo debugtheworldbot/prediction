@@ -22,6 +22,7 @@ export enum PredictionStatus {
 }
 
 export type Prediction = {
+  userId: string;
   user: {
     avatar_url: string;
     email: string;
@@ -65,6 +66,7 @@ const statusMap = {
 
 export async function PredictionCard({
   className,
+  userId,
   user,
   prediction,
   reactions,
@@ -81,7 +83,7 @@ export async function PredictionCard({
     <Card className={cn(className, "w-[70vw] sm:w-[40rem]")} {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-4">
-          <Link href={`/user/${user.id}`}>
+          <Link href={`/user/${userId}`}>
             <Avatar className="self-start cursor-pointer">
               <AvatarImage src={user.avatar_url} />
             </Avatar>
@@ -122,8 +124,8 @@ export async function PredictionCard({
                 className={clsx(
                   "rounded-full border px-2 h-8 text-base hover:bg-blue-200",
                   selfReactions &&
-                  selfReactions[k] &&
-                  "border-blue-500 bg-blue-100",
+                    selfReactions[k] &&
+                    "border-blue-500 bg-blue-100",
                 )}
               >
                 {reactionMap[k]}&nbsp;
