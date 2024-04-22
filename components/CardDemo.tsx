@@ -2,7 +2,6 @@ import { cn, getEntries, reactionMap } from "@/lib/utils";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -13,6 +12,7 @@ import clsx from "clsx";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Reactions } from "./Reactions";
+import { createClient } from "@/utils/supabase/server";
 
 export enum PredictionStatus {
   Correct,
@@ -42,6 +42,15 @@ export type Prediction = {
     thinking: number | null;
     watching: number | null;
   } | null;
+  userReactions: {
+    user_id: string | null;
+    up: boolean | null;
+    down: boolean | null;
+    fire: boolean | null;
+    lol: boolean | null;
+    thinking: boolean | null;
+    watching: boolean | null;
+  }[];
 };
 
 type CardProps = React.ComponentProps<typeof Card> & Prediction;
@@ -52,13 +61,20 @@ const statusMap = {
   [PredictionStatus.ToBeRevealed]: "To be revealed",
 };
 
-export function CardDemo({
+export async function CardDemo({
   className,
   user,
   prediction,
   reactions,
+  userReactions,
   ...props
 }: CardProps) {
+  const supabase = createClient();
+  const { data: mySelf } = await supabase.auth.getUser();
+  const selfReactions = userReactions.filter(
+    (r) => r.user_id === mySelf?.user?.id,
+  )[0];
+
   return (
     <Card className={cn(className, "w-[70vw] sm:w-[40rem]")} {...props}>
       <CardHeader>
@@ -68,7 +84,6 @@ export function CardDemo({
           </Avatar>
           {prediction.content}
         </CardTitle>
-        <CardDescription></CardDescription>
       </CardHeader>
       <CardContent>
         {prediction.evidence && (
@@ -100,13 +115,18 @@ export function CardDemo({
               <Button
                 key={k}
                 variant="outline"
-                className="rounded-full border px-2 h-8"
+                className={clsx(
+                  "rounded-full border px-2 h-8 text-base hover:bg-blue-200",
+                  selfReactions &&
+                  selfReactions[k] &&
+                  "border-blue-500 bg-blue-100",
+                )}
               >
                 {reactionMap[k]}&nbsp;
                 {v}
               </Button>
             ))}
-        <Reactions id={prediction.id} />
+        <Reactions id={prediction.id} selfReactions={selfReactions} />
         <span
           className={clsx(
             "font-medium text-center",

@@ -8,8 +8,13 @@ import {
 import { Button } from "./ui/button";
 import { makeReaction } from "@/app/actions";
 import { reactionMap, getEntries } from "@/lib/utils";
+import { Prediction } from "./CardDemo";
+import clsx from "clsx";
 
-export function Reactions(props: { id: string }) {
+export function Reactions(props: {
+  id: string;
+  selfReactions: Prediction["userReactions"][0];
+}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -20,7 +25,10 @@ export function Reactions(props: { id: string }) {
       <PopoverContent className="flex gap-2">
         {getEntries(reactionMap).map(([k, v]) => (
           <PopoverClose
-            className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
+            className={clsx(
+              "p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer",
+              props.selfReactions && props.selfReactions[k] && "bg-blue-100",
+            )}
             key={k}
             onClick={async () => {
               await makeReaction(props.id, { [k]: true });

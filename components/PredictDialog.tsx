@@ -43,14 +43,12 @@ function ProfileForm({
   return (
     <form
       action={async (formData: FormData) => {
-        console.log("sssssssssssubmit");
         await createPrediction(formData);
         closeDialog();
         toast("Prediction created");
       }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        console.log("submit");
+      onSubmit={() => {
+        setPending(true);
       }}
       className={cn("grid items-start gap-4 mt-2", className)}
     >
@@ -61,6 +59,7 @@ function ProfileForm({
           onChange={(e) => {
             setCanSave(e.target.value.length > 0);
           }}
+          required
           placeholder="What's your prediction?"
         />
       </div>
@@ -87,7 +86,9 @@ function ProfileForm({
         <Label htmlFor="risk">Risk</Label>
         <Input name="risk" placeholder="What against your prediction?" />
       </div>
-      <Button type="submit">{pending ? "Loading..." : "Create"}</Button>
+      <Button disabled={!canSave || pending} type="submit">
+        {pending ? "Loading..." : "Create"}
+      </Button>
     </form>
   );
 }
