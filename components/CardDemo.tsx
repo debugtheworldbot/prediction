@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, reactionMap } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -10,9 +10,9 @@ import {
 import { Progress } from "./ui/progress";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import clsx from "clsx";
-import Reactions, { reactionMap } from "./Reactions";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { Reactions } from "./Reactions";
 
 export enum PredictionStatus {
   Correct,
@@ -43,6 +43,7 @@ export type Prediction = {
     watching: number | null;
   } | null;
 };
+
 type CardProps = React.ComponentProps<typeof Card> & Prediction;
 
 const statusMap = {
@@ -105,7 +106,7 @@ export function CardDemo({
                 {v}
               </Button>
             ))}
-        <Reactions />
+        <Reactions id={prediction.id} />
         <span
           className={clsx(
             "font-medium text-center",

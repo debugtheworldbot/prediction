@@ -1,6 +1,7 @@
 "use server";
 
 import { PredictionStatus } from "@/components/CardDemo";
+import { Reaction } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -19,6 +20,37 @@ const schema = z.object({
     invalid_type_error: "Invalid risk",
   }),
 });
+
+export async function makeReaction(payload: {
+  id: string;
+  type: Reaction;
+  isIncrement?: boolean;
+}) {
+  const supabase = createClient();
+  const { type, isIncrement = true } = payload;
+  const { data: reaction, error } = await supabase
+    .from("reactions")
+    .select("*")
+    .eq("id", payload.id);
+  const value = reaction?.[0];
+  if (value) {
+    const { data, error } = await supabase
+      .from("reactions")
+      .update({
+        ...value,
+        [type]: isIncrement
+          ? (value[type] || 0) + 1
+          : Math.max((value[type] || 0) - 1, 0),
+      })
+      .eq("id", payload.id);
+  } else {
+    const { data, error } = await supabase
+      .from("reactions")
+      .insert({ id: payload.id, [type]: 1 });
+  }
+  revalidatePath("/");
+  return "ok";
+}
 
 export async function getPredictions() {
   const supabase = createClient();

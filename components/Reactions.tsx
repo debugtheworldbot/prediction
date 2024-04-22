@@ -1,3 +1,4 @@
+"use client";
 import {
   Popover,
   PopoverClose,
@@ -5,8 +6,9 @@ import {
   PopoverTrigger,
 } from "./ui/popover";
 import { Button } from "./ui/button";
+import { makeReaction } from "@/app/actions";
 
-export default function Reactions() {
+export function Reactions(props: { id: string }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -19,6 +21,9 @@ export default function Reactions() {
           <PopoverClose
             className="p-0 w-10 h-10 rounded hover:bg-gray-100 cursor-pointer"
             key={r}
+            onClick={async () => {
+              await makeReaction({ id: props.id, type: "down" });
+            }}
           >
             {r}
           </PopoverClose>
@@ -28,15 +33,6 @@ export default function Reactions() {
   );
 }
 const reactions = ["👍", "👎", "🔥", "🤣", "🤔", "👀"];
-
-export const reactionMap = {
-  up: "👍",
-  down: "👎",
-  fire: "🔥",
-  lol: "🤣",
-  thinking: "🤔",
-  watching: "👀",
-};
 
 const emoji = (
   <svg
