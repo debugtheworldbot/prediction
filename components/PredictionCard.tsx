@@ -1,4 +1,4 @@
-import { cn, getEntries, reactionMap } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -10,10 +10,9 @@ import { Progress } from "./ui/progress";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import clsx from "clsx";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Reactions } from "./Reactions";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { ReactionSection } from "./ReactionSection";
 
 export enum PredictionStatus {
   Correct,
@@ -80,7 +79,7 @@ export async function PredictionCard({
   )[0];
 
   return (
-    <Card className={cn(className, "w-[70vw] sm:w-[40rem]")} {...props}>
+    <Card className={cn(className, "w-full sm:w-[40rem]")} {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-4">
           <Link href={`/user/${userId}`}>
@@ -113,26 +112,12 @@ export async function PredictionCard({
           </span>
         </div>
       </CardContent>
-      <CardFooter className="flex gap-2 text-gray-500">
-        {reactions &&
-          getEntries(reactions)
-            .filter(([, v]) => v && v > 0)
-            .map(([k, v]) => (
-              <Button
-                key={k}
-                variant="outline"
-                className={clsx(
-                  "rounded-full border px-2 h-8 text-base hover:bg-blue-200",
-                  selfReactions &&
-                    selfReactions[k] &&
-                    "border-blue-500 bg-blue-100",
-                )}
-              >
-                {reactionMap[k]}&nbsp;
-                {v}
-              </Button>
-            ))}
-        <Reactions id={prediction.id} selfReactions={selfReactions} />
+      <CardFooter className="flex gap-2 flex-wrap ">
+        <ReactionSection
+          reactions={reactions}
+          selfReactions={selfReactions}
+          predictionId={prediction.id}
+        />
         <span
           className={clsx(
             "font-medium text-center",
